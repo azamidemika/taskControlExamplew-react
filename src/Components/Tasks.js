@@ -17,14 +17,19 @@ export default class Task extends Component {
           return task.id;
         })
         .indexOf(taskToRemove);
-      myTasks.splice(toRemove, 1);
-      let a = document.getElementById(removed);
-      a.className = "card col-sm-2 animated flipOutY";
-      setTimeout(() => {
-        this.setState({
-          tasks: myTasks
-        });
-      }, 1000);
+      var confirmation = window.confirm(
+        "Are you sure you want to delete this task?"
+      );
+      if (confirmation) {
+        myTasks.splice(toRemove, 1);
+        let a = document.getElementById(removed);
+        a.className = "card col-sm-2 animated flipOutY";
+        setTimeout(() => {
+          this.setState({
+            tasks: myTasks
+          });
+        }, 1000);
+      }
     };
     let allTasks = tasks.map(task => (
       <div
@@ -33,8 +38,9 @@ export default class Task extends Component {
         style={{ margin: "10px 15px", padding: "10px 10px" }}
         key={Math.random()}
       >
-        <button className="btn btn-danger" onClick={() => removeTask(task.id)}>
-          Delete this task
+        <button className=" btn btn-danger" onClick={() => removeTask(task.id)}>
+          <a className="fa fa-times-circle" style={{ margin: "4px" }} />
+          Remove Task
         </button>
         <hr />
         <p>{task.task}</p>
